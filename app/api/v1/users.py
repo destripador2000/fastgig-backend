@@ -4,14 +4,14 @@ from app.db.session import get_session
 from app.models import User
 from app.schemas.user import UserCreate
 from app.schemas.user import UserRead
-from app.core.security import get_password_hash
+from app.core.security import hash_password
 from sqlalchemy.ext.asyncio import AsyncSession
 router = APIRouter()
 
 @router.post("/", response_model=UserRead)
 async def create_user(user: UserCreate, session: AsyncSession = Depends(get_session)):
 
-    pass_hash = get_password_hash(user.password)
+    pass_hash = hash_password(user.password)
 
     new_user = User(
         email=user.email,
