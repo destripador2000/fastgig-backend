@@ -34,3 +34,12 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
     return encoded_jwt
+
+# Función para verificar (Comparar texto plano contra hash guardado)
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    # 1. Convertimos ambos a bytes
+    password_byte_enc = plain_password.encode('utf-8')
+    hashed_password_byte_enc = hashed_password.encode('utf-8')
+
+    # 2. La librería se encarga de comparar de forma segura
+    return bcrypt.checkpw(password_byte_enc, hashed_password_byte_enc)
